@@ -1,0 +1,6 @@
+[
+{
+  "name":"iaik.pkcs.pkcs11.wrapper.PKCS11Implementation",
+  "methods":[{"name":"initializeLibrary","parameterTypes":[] }]}
+
+]

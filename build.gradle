@@ -1,0 +1,33 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+    id "java"
+}
+
+group "fr.devboxsante.cps.nativ"
+version "0.0.1"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    // PKCS11 wrapper
+    implementation "at.tugratz:iaikpkcs11wrapper:1.6.2"
+
+    // Native image
+    compileOnly "org.graalvm.nativeimage:svm:21.3.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+shadowJar {
+    archiveFileName = "native.jar"
+    manifest {
+        attributes "Main-Class": "fr.devboxsante.cps.nativ.NativeCpsApplication"
+    }
+}
+
+assemble.dependsOn(shadowJar)
