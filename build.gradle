@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     // PKCS11 wrapper
-    implementation "at.tugratz:iaikpkcs11wrapper:1.6.2"
+    //implementation "at.tugratz:iaikpkcs11wrapper:1.6.2"
 
     // Native image
     compileOnly "org.graalvm.nativeimage:svm:21.3.0"

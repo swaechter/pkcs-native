@@ -9,12 +9,6 @@ work at the moment due some library loading issue.
 
 **Disclaimer**: If you don't trust the provided DLLs, you can get an evaluation version from https://jce.iaik.tugraz.at/products/core-crypto-toolkits/pkcs11-wrapper/
 
-### Import the Java IAIK PKCS11 wrapper in your local Maven repository
-
-```powershell
-mvn install:install-file "-Dfile=libs/iaikPkcs11Wrapper_1.6.2.jar" "-DgroupId=iaik.pkcs" "-DartifactId=pkcs11-wrapper" "-Dversion=1.6.2" "-Dpackaging=jar" "-DgeneratePom=true"
-```
-
 ### Copy the PKCS11 JNI DLL to your Window DDL directory
 
 Run the following command as administrator:
@@ -22,6 +16,8 @@ Run the following command as administrator:
 ````powershell
 cp .\libs\pkcs11wrapper.dll C:\Windows\System32\drivers\
 ````
+
+**Note**: The IAIK Java source code is intregrated in the project to eliminate potential issues with older compilers.
 
 ### Include GraalVM and MSVC in the PATH variable
 
@@ -61,11 +57,11 @@ Run into the native application. Here we run into the problem:
 ````powershell
 C:\Users\swaechter\Downloads\pkcs-native>.\native.exe
 Exception in thread "main" java.lang.UnsatisfiedLinkError: no pkcs11wrapper in java.library.path
-        at com.oracle.svm.core.jdk.NativeLibrarySupport.loadLibraryRelative(NativeLibrarySupport.java:132)
-        at java.lang.ClassLoader.loadLibrary(ClassLoader.java:47)
-        at java.lang.Runtime.loadLibrary0(Runtime.java:818)
-        at java.lang.System.loadLibrary(System.java:1989)
-        at fr.devboxsante.cps.nativ.NativeCpsApplication.main(NativeCpsApplication.java:16)
+at com.oracle.svm.core.jdk.NativeLibrarySupport.loadLibraryRelative(NativeLibrarySupport.java:132)
+at java.lang.ClassLoader.loadLibrary(ClassLoader.java:47)
+at java.lang.Runtime.loadLibrary0(Runtime.java:818)
+at java.lang.System.loadLibrary(System.java:1989)
+at fr.devboxsante.cps.nativ.NativeCpsApplication.main(NativeCpsApplication.java:16)
 ````
 
 ## Implement a feature to link the library at compile time
@@ -110,11 +106,11 @@ Rerun to see that we can load the library, but fail due some JNI mismatch:
 ````powershell
 C:\Users\swaechter\Downloads\pkcs-native>native.exe
 java.lang.reflect.InvocationTargetException
-        at java.lang.reflect.Method.invoke(Method.java:568)
-        at fr.devboxsante.cps.nativ.NativeCpsApplication.main(NativeCpsApplication.java:18)
+at java.lang.reflect.Method.invoke(Method.java:568)
+at fr.devboxsante.cps.nativ.NativeCpsApplication.main(NativeCpsApplication.java:18)
 Caused by: java.lang.UnsatisfiedLinkError: iaik.pkcs.pkcs11.wrapper.PKCS11Implementation.initializeLibrary()V [symbol: Java_iaik_pkcs_pkcs11_wrapper_PKCS11Implementation_initializeLibrary or Java_iaik_pkcs_pkcs11_wrapper_PKCS11Implementation_initializeLibrary__]
-        at com.oracle.svm.jni.access.JNINativeLinkage.getOrFindEntryPoint(JNINativeLinkage.java:153)
-        at com.oracle.svm.jni.JNIGeneratedMethodSupport.nativeCallAddress(JNIGeneratedMethodSupport.java:57)
-        at iaik.pkcs.pkcs11.wrapper.PKCS11Implementation.initializeLibrary(PKCS11Implementation.java)
-        ... 2 more
+at com.oracle.svm.jni.access.JNINativeLinkage.getOrFindEntryPoint(JNINativeLinkage.java:153)
+at com.oracle.svm.jni.JNIGeneratedMethodSupport.nativeCallAddress(JNIGeneratedMethodSupport.java:57)
+at iaik.pkcs.pkcs11.wrapper.PKCS11Implementation.initializeLibrary(PKCS11Implementation.java)
+... 2 more
 ````
