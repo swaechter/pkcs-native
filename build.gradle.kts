@@ -2,6 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("com.github.johnrengelman.shadow") version ("7.1.0")
+    id("org.graalvm.buildtools.native") version ("0.9.27")
     id("java")
 }
 
@@ -9,7 +10,9 @@ group = "org.example"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -32,10 +35,24 @@ tasks {
             attributes(mapOf("Main-Class" to "fr.devboxsante.cps.nativ.Launcher"))
         }
     }
-}
 
-tasks {
     build {
         dependsOn(shadowJar)
     }
+}
+
+graalvmNative {
+    agent {
+        defaultMode = "standard"
+    }
+    binaries {
+        named("main") {
+            mainClass.set("fr.devboxsante.cps.nativ.Launcher")
+            fallback.set(false)
+            verbose.set(true)
+            useFatJar.set(true)
+            imageName.set("native")
+        }
+    }
+    toolchainDetection = false
 }

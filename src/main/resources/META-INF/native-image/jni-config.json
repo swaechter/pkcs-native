@@ -22,8 +22,20 @@
   "name":"iaik.pkcs.pkcs11.wrapper.CK_DATE"
 },
 {
+  "name":"iaik.pkcs.pkcs11.wrapper.CK_SLOT_INFO",
+  "fields":[{"name":"firmwareVersion"}, {"name":"flags"}, {"name":"hardwareVersion"}, {"name":"manufacturerID"}, {"name":"slotDescription"}]
+},
+{
+  "name":"iaik.pkcs.pkcs11.wrapper.CK_VERSION",
+  "fields":[{"name":"major"}, {"name":"minor"}]
+},
+{
   "name":"iaik.pkcs.pkcs11.wrapper.PKCS11",
   "methods":[{"name":"isDisableBufferPreAllocation","parameterTypes":[] }]
+},
+{
+  "name":"iaik.pkcs.pkcs11.wrapper.PKCS11UTIL",
+  "methods":[{"name":"utf8Decoder","parameterTypes":["byte[]"] }]
 },
 {
   "name":"java.lang.Boolean",
